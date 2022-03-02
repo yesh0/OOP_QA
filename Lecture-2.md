@@ -123,8 +123,31 @@ private:
 class Computer {
 	int computer_size_;
 public:
-	void set_size(int);
+	inline void set_size(int _size) {
+		computer_size_ = _size;
+	}
+
+	/* Functions defined in class definitions are already implicit inline */
+	/* inline */ void set_size_2(int _size) {
+		computer_size_ = _size;
+	}
 };
+```
+
+The following code will fail to link using g++ and you should never do this:
+```cpp
+//In header file:
+class Computer {
+	int computer_size_;
+public:
+	inline void set_size(int _size);
+};
+
+// In another source file:
+{
+	Computer c;
+	c.set_size(-1);
+}
 ```
 ```cpp
 //In source file:

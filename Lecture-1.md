@@ -46,23 +46,27 @@ int main(int argc, char** argv)
 - Use quotation marks (`""`) to embrace the whole message. For example, to input 'Hello World' as one argument, put `"Hello World"` in the command-line, or input a slash sign '`\`' before the space (`Hello\ World`):
   - `a.exe "Hello World"`
   - `a.exe Hello\ World`
+- One may also use single quotation marks (`''`), for example, `'Hello World'`. This has subtle differences with double quotation marks.
 
 #### 4. What is the meaning of argc and argv? What are their data types? If the command “a.exe 1 2 3” is executed in the terminal (终端), what are the values of argc and argv?
 
 - `argc`: the number of arguments obtained from the terminal. The data type of `argc` is `int`.
 - `argv`: the arguments obtained from the terminal. The data type of `argv` is `char**`, i.e., an array of `char*`.
 - When "`a.exe 1 2 3`" is executed in the terminal, `argc = 4`, and `argv = {"a.exe", "1", "2", "3"}`
+  - Actually, `argv` is `{"a.exe", "1", "2", "3", NULL}, where `NULL` marks the end of the array.
 
 ## Translation（翻译）from source code（源代码）to binary executable（二进制可执行文件）
 
 #### 5.	Please explain how interpreters（解释器）and compilers（编译器）work. What are the typical programming languages (典型编程语言) for each of the two translation methods? Please list the advantages and disadvantages of interpreters vs. compilers.
 
-- Interpreters translate the code line-by-line while executing the program. So, in general, interpreters run programs slower than compilers. The most common examples of interpreted languages are Python and java.
+- Interpreters translate the code statement-by-statement while executing the program. So, in general, interpreters run programs slower than compilers. The most common examples of interpreted languages are Python and Java[^1].
 - Advantages: programs can be easily transplanted (移植) to other platforms (平台), because the execution of the program only relies on the interpreters.
 - Disadvantage: run slower than compiled program. They also use more memory.
 - Compilers compile the program into machine code, which is saved as a binary file (二进制文件). Then the machine code runs directly on the operating system (操作系统). This makes running compilers faster than running interpreters. The most common examples of compiled languages are C and C++.
 - Advantages: faster than interpreters. The compiler can also perform code optimization during the compiling process.
 - Disadvantage: For different platforms, the source code needs to be recompiled (重新编译).
+
+[^1]: Note that Java may be a common example but never a typical one, since Java source codes are first compiled into `byte-code`, which is then interpreted by the Java Virtual Machine (JVM). JVMs nowadays commonly use a technique called Just-In-Time (JIT) that further compiles the `byte-code` into machine code on need. And one might say it is both interpreted and compiled.
 
 #### 6.	The g++ compiler is universally used in both commercial and scientific research projects. So you are supposed to know how to use g++ to compile C++ source files into the binary file. State the basic usage (基本用法) on how to compile a source file. List useful compiling options (编译选项) as many as possible, and explain why and when do we need these options.
 
@@ -197,9 +201,14 @@ g++ main.o sum.o product.o -o test
 - The symbol in front of the colon is the target. If the target is a file, and its modification date is older than any dependencies after the colon or the target does not exist, the following commands will be executed.
   ```makefile
   target: file1 file2 file3
-      command to generate target
+  	command to generate target
   file1: file12 file13
-      command to generate file1
+  	command1 to generate file1
+  	command2 to generate file1
+  clean:
+  	command to clean up
+  .PHONY: clean
+  # clean is not a file to be generated
   ```
 
 #### 16. On Linux, how do we enable separate compilation (分段编译) of source files using make and makefile? Assume that we have the files main.cpp, sum.cpp, product.cpp, and functions.h; write a makefile to generate an executable named test by separate compilation.
@@ -233,7 +242,6 @@ void fun();
 
 ```cpp
 /*  main.cpp  */
-#include <iostream>
 #include "mylib.h"
 using namespace std;
 
@@ -347,7 +355,7 @@ Explanation: Using the shell command `find`, we can automaticlly detect all sour
 
 - ".RECIPEPREFIX = >" can change all the tab into '>'.
 
-- In Makefile, we can use Bash grammars as follows.
+- In Makefile, we can use the following grammar:
 	```makefile
 	ifeq ($(CC),gcc)
 		libs=$(libs_for_gcc)
@@ -355,3 +363,11 @@ Explanation: Using the shell command `find`, we can automaticlly detect all sour
 		libs=$(normal_libs)
 	endif
 	```
+  But this has nothing to do with bash.
+
+- Targets like `all` and `clean` can be interpreted as files named `all` and `clean`, and this will lead to unexpected results when there present such files. One may use `.PHONY` to indicate that they are not real files:
+  ```makefile
+  clean:
+  	rm *.o $(EXECUTABLE)
+  .PHONY: clean all
+  ```
