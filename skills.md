@@ -20,6 +20,11 @@ void G (int &n) {
 vec.swap(vector<int>());
 ```
 
+You may also use `shrink_to_fit`:
+```cpp
+vec.shrink_to_fit();
+```
+
 ## SFINAE
 
 SFINAE /s’fi:nei/ is short for “Substitution Failure Is Not An Error”. It is a black magic widely used in C++ template metaprogramming. This feature applies during overload resolution.
@@ -420,13 +425,13 @@ Function calls require two jumps, and cause the compiler to manipulate stack mem
 ++i have a better efficiency than i++.
 
 ```cpp
-for(int i = 0; i < 10; ++i)
+for(auto i = my_set.begin(); i != my_set.end(); ++i)
 ```
 
 instead of
 
 ```cpp
-for(int i =  0; i < 10; i++)
+for(auto i = my_set.begin(); i != my_set.end(); i++)
 ```
 
 Because `++i`  needn't call the copy constructor to build a new object `temp`.
@@ -434,6 +439,8 @@ Because `++i`  needn't call the copy constructor to build a new object `temp`.
 `++i` is also faster than `i++` in `iterator` of STL.
 
 because i++ creates a copy of the object, which, when not needed, is suboptimal.
+
+Note that in the above example, if `i` is a primitive type (`int`, etc.), the compiler will probably optimize the difference away and you need not worry about it.
 
 ## Use bit operations
 When the operation involves powers of two, the bit operation can be used to solve the problem.  
@@ -443,6 +450,7 @@ For example, you can use a int as a bool[32].
 + Whenever you use a variable that never change, you'd better declare it as a const.
 + And for those function less than 10 lines, declare them as inline can improve the efficiency. 
 + For those large objects, it is costly to copy. So it better to use reference.
++ You may also consider using [`constexpr`](https://en.cppreference.com/w/cpp/language/constexpr).
 
 ## Subset Enumeration
 
@@ -484,7 +492,7 @@ register count;
 reference：https://zh.wikipedia.org/wiki/%E8%BE%BE%E5%A4%AB%E8%AE%BE%E5%A4%87
 
 ## Avoid the use of division
-use b = *a\*0.2* instead of *b = a / 5* because computers are less efficient at division.
+use `b = a * 0.2` instead of `b = a / 5` because computers are less efficient at division.
 
 ## 快速乘
 
@@ -540,7 +548,7 @@ int quickPow(int x,int y)
 ```
 ## __builtin functions：
 
-这些函数是C标准库中的一些函数，被GCC引入为内置函数。可以快速完成基础的位运算或其他功能，从而大幅优化关键位置效率。
+这些函数有些是C标准库中的一些函数，有些不是，因为可以被优化而被GCC引入为内置函数。可以快速完成基础的位运算或其他功能，从而大幅优化关键位置效率。
 
 `__builtin_popcount(uint32_t x)`：返回`x`二进制表示中`1`的个数。
 `__builtin_ctz(uint32_t x)`：返回`x`二进制中最低位0的个数。注意`x=0`时返回值是未定义的。
@@ -729,4 +737,4 @@ int main()
 }
 ```
 这个程序的结果为：11ms，20ms
-由于行遍历的连续性，按行遍历可以快速找到下一个内存的指针，从而效率更高。
+现代 CPU 效率的一大瓶颈其实来源于内存读取的缓慢。为此 CPU 内部引入了缓存，缓存的一个小单元称为一个 cache line，缓存的是连续区段内的一些内存内容。我们读取第一个数据时，CPU 把周围的内存也一并读到了缓存里，可以想到，那么连续的行遍历能够更好的利用已被缓存的内容，从而效率更高；而列历遍则往往读取的都是没有缓存的内容，内存读取消耗了大量时间。

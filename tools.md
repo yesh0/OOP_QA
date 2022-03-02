@@ -12,6 +12,14 @@ For example, its code generation:
 
 See more details on [https://www.jetbrains.com/clion/](https://www.jetbrains.com/clion/)
 
+A **cross-platform** IDE for C and C++
+
+CLion是Jetbrains公司旗下新推出的一款专为开发C/C++所设计的跨平台IDE。它是以IntelliJ为基础设计的，同时包含了代码辅助、代码生成、安全重构、快速文档、实时代码分析、集成调试器等许多智能功能以提高开发效率。
+
+**对学生完全免费**，提供官方简体中文插件。
+
+Website: https://www.jetbrains.com/clion/
+
 # This page lists the useful programming tools for C++ programming, preferably with description of the tool or with an example illustrating how to use the tool. 
 
 ## GDB
@@ -135,6 +143,38 @@ Vim is a text editor developed from VI. Code completion, compilation, error jump
 ## GNU Make
 Make is an essential tool for writing a large program. It can find makefile files and efficiently compile linked source files.
 
+## CMake
+
+Tired of writing Makefiles? CMake to the rescue! You can see CMake as a tool the automates creating Makefiles from more friendly concepts:
+```cmake
+add_executable(my_program
+  main.cc
+  computer.cc
+  utils.cc
+)
+target_link_libraries(my_program PRIVATE
+  SDL2main
+  SDL2-static
+)
+target_include_directories(my_program PRIVATE
+  "${SDL2_SOURCE_DIR}/include"
+)
+```
+
+It also manages library dependencies for you. You can even let it download the source code of certain libraries and compile them automatically:
+```cmake
+include(FetchContent)
+
+FetchContent_Declare(
+  SDL2
+  GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+  GIT_TAG release-2.0.20)
+message(STATUS "Making available SDL2...")
+FetchContent_MakeAvailable(SDL2)
+```
+
+Want a tutorial? See [An Introduction to Modern CMake](https://cliutils.gitlab.io/modern-cmake/).
+
 ## Oh-My-Zsh
 
 > Oh My Zsh is an open source, community-driven framework for managing your Zsh configuration.
@@ -182,16 +222,6 @@ WSL可以让开发者在Windows电脑上运行Linux程序。
 
 ## IDA
 IDA是Interactive Disassembler Professional的缩写，指交互式反汇编器。可以用于分析不知道源码的C可执行程序，不仅可以得到等效源码、汇编代码，还能分析栈和堆的分配方式，如函数地址和变量地址。
-
-## CLion
-
-A **cross-platform** IDE for C and C++
-
-CLion是Jetbrains公司旗下新推出的一款专为开发C/C++所设计的跨平台IDE。它是以IntelliJ为基础设计的，同时包含了代码辅助、代码生成、安全重构、快速文档、实时代码分析、集成调试器等许多智能功能以提高开发效率。
-
-**对学生完全免费**，提供官方简体中文插件。
-
-Website: https://www.jetbrains.com/clion/
 
 ## vTune
 VTune Profiler (formerly VTune Amplifier) is a performance analysis tool for x86 based machines running Linux or Microsoft Windows operating systems. Many features work on both Intel and AMD hardware, but advanced hardware-based sampling requires an Intel-manufactured CPU.(It is very powerful)
