@@ -10,20 +10,33 @@ For example, its code generation:
 
 ![CLion](https://raw.githubusercontent.com/liumy2010/OOP_QA/master/CLion.png)
 
-See more details on [https://www.jetbrains.com/clion/](https://www.jetbrains.com/clion/)
+See more details on [https://www.jetbrains.com/clion/](https://www.jetbrains.com/clion/)。
 
-# This page lists the useful programming tools for C++ programming, preferably with description of the tool or with an example illustrating how to use the tool. 
+A **cross-platform** IDE for C and C++
 
-## GDB
+CLion是Jetbrains公司旗下新推出的一款专为开发C/C++所设计的跨平台IDE。它是以IntelliJ为基础设计的，同时包含了代码辅助、代码生成、安全重构、快速文档、实时代码分析、集成调试器等许多智能功能以提高开发效率。
 
-用来调试C++程序的文本界面的工具，可以通过设置断点、查看变量等方式来监控程序的运行。
+**对学生完全免费**，提供官方简体中文插件。
+
+Website: https://www.jetbrains.com/clion/
 
 ##  Gurobi
 [Gurobi](https://www.gurobi.com/) is possibly the fastest solver in the world. It's extremely powerful in mathematical optimization and can help solve various kinds of problems including Linear Programming(LP), Mixed Integer Proramming(MIP), Quadratic Programming(QP) and so on. Gurobi provides support for all platforms and interfaces for not only C++, but also other programming languages like python, Java and C#. It's a commercial software, but you can use it free of charge under academic license. For examples, see [here](https://www.gurobi.com/resource/functional-code-examples/). 
 
 ## GDB
 
+用来调试C++程序的文本界面的工具，可以通过设置断点、查看变量等方式来监控程序的运行
+
  GDB是一个由GNU开源组织发布的、UNIX/LINUX操作系统下的、基于命令行的、功能强大的程序调试工具。对于linux环境下的编程，GDB是很好用的调试工具，在编程环境局限于命令行的条件下，GDB是必不可少的。GDB不仅有在命令行中使用的版本，也有带图形化界面的版本。
+
+## Valgrind
+
+> Valgrind 是一款用于内存调试、内存泄漏检测以及性能分析的软件开发工具。
+> --Wikipedia
+
+Valgrind 其实是一系列工具。我们最经常用到的是其中的 Memcheck 工具，它可以检查出程序中的内存分配的漏洞，例如内存未释放、访问未初始化的内存、`new[]` 和 `delete[]` 不匹配等。
+
+类 UNIX 系统下安装好后直接 `valgrind 要运行的程序` 即可。
 
 ## PuTTY
 
@@ -182,16 +195,6 @@ WSL可以让开发者在Windows电脑上运行Linux程序。
 
 ## IDA
 IDA是Interactive Disassembler Professional的缩写，指交互式反汇编器。可以用于分析不知道源码的C可执行程序，不仅可以得到等效源码、汇编代码，还能分析栈和堆的分配方式，如函数地址和变量地址。
-
-## CLion
-
-A **cross-platform** IDE for C and C++
-
-CLion是Jetbrains公司旗下新推出的一款专为开发C/C++所设计的跨平台IDE。它是以IntelliJ为基础设计的，同时包含了代码辅助、代码生成、安全重构、快速文档、实时代码分析、集成调试器等许多智能功能以提高开发效率。
-
-**对学生完全免费**，提供官方简体中文插件。
-
-Website: https://www.jetbrains.com/clion/
 
 ## vTune
 VTune Profiler (formerly VTune Amplifier) is a performance analysis tool for x86 based machines running Linux or Microsoft Windows operating systems. Many features work on both Intel and AMD hardware, but advanced hardware-based sampling requires an Intel-manufactured CPU.(It is very powerful)
